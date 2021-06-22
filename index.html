@@ -25,17 +25,21 @@
           usr.forEach((user) => {
             const parent = document.getElementById("userDiv");
             const child = document.createElement("p");
-            child.innerHTML = ` Name: ${user.name} age:${user.age} <button onclick="deleteUser('${user._id}')">Delete</button> <button onclick=" loadUser('${user._id}')" >Update</button> `;
+            child.innerHTML = ` Name: ${user.name} age:${user.age} <button onclick="deleteUser(event,'${user._id}')">Delete</button> <button onclick=" loadUser('${user._id}')" >Update</button> `;
             parent.appendChild(child);
           });
         });
       // delete data from database
-      const deleteUser = (id) => {
+      const deleteUser = (event, id) => {
         fetch(`/delete/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
-          .then((data) => console.log(data));
+          .then((deleted) => {
+            if (deleted) {
+              event.target.parentNode.style.display = "none";
+            }
+          });
       };
       // load a signle product
 

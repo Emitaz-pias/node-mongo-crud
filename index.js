@@ -4,11 +4,11 @@ const MongoClient = require("mongodb").MongoClient;
 const bodyParser = require("body-parser");
 const ObjectId = require("mongodb").ObjectID;
 
+// app usefull area..
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
 const uri =
   "mongodb+srv://piasemi:iRI9T1yW46gXVmAb@nodemongocrud.jgzj8.mongodb.net/cruddb?retryWrites=true&w=majority";
 const client = new MongoClient(uri, {
@@ -30,12 +30,16 @@ client.connect((err) => {
     });
   });
   // collection.insertOne(newUser).then((result) => {});
+
   // post data to database from front end
   app.post("/addUser", (req, res) => {
     const user = req.body;
     collection.insertOne(user).then((result) => {
       res.redirect("/");
-      console.log("data inserted successfully", result.ops);
+      console.log(
+        "data inserted successfully,i found result.ops personaly",
+        result.ops
+      );
     });
   });
   // console.log("data insserted successfully", result.ops);
@@ -46,10 +50,9 @@ client.connect((err) => {
   app.delete("/delete/:id", (req, res) => {
     const id = req.params.id;
     console.log(id);
-    collection
-      .removeOne({ _id: ObjectId(id) })
-      .then((err, result) => console.log(err, result));
-    console.log(id);
+    collection.removeOne({ _id: ObjectId(id) }).then((result) => {
+      res.send(result.deletedCount > 0);
+    });
   });
   // load signle data from database
   app.get("/user/:id", (req, res) => {
