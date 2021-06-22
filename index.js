@@ -42,7 +42,7 @@ client.connect((err) => {
   console.log(err);
   console.log("databaseConnected");
 
-  // delte data from database
+  // deete data from database
   app.delete("/delete/:id", (req, res) => {
     const id = req.params.id;
     console.log(id);
@@ -57,6 +57,19 @@ client.connect((err) => {
     collection.find({ _id: ObjectId(id) }).toArray((err, docs) => {
       res.send(docs[0]);
     });
+  });
+  // update user's data from front end
+  app.patch("/updateUser/:id", (req, res) => {
+    const id = req.params.id;
+    console.log(req.body.age);
+    collection
+      .updateOne(
+        { _id: ObjectId(id) },
+        {
+          $set: { age: req.body.age },
+        }
+      )
+      .then((res) => console.log(res));
   });
 });
 

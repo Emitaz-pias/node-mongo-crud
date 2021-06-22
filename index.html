@@ -25,7 +25,7 @@
           usr.forEach((user) => {
             const parent = document.getElementById("userDiv");
             const child = document.createElement("p");
-            child.innerHTML = ` Name: ${user.name} age:${user.age} <button onclick=" loadUser('${user._id}')" >Update</button> <button onclick="deleteUser('${user._id}')">Delete</button>`;
+            child.innerHTML = ` Name: ${user.name} age:${user.age} <button onclick="deleteUser('${user._id}')">Delete</button> <button onclick=" loadUser('${user._id}')" >Update</button> `;
             parent.appendChild(child);
           });
         });
@@ -43,13 +43,27 @@
         console.log(id);
         fetch(`/user/${id}`)
           .then((res) => res.json())
-          .then((user) => {
+          .then((usr) => {
             const parent = document.getElementById("update");
             parent.innerHTML = `
-                <h3>${user.name}</h3>
-                <input type="text" value="${user.age} "/>
-            `;
+                      <h3 id="name">${usr.name}</h3>
+                      <input id="age" type="text" value=${usr.age} />
+                      <button onclick="updateUser('${usr._id}')">UpdateUser </button>
+                  `;
           });
+      };
+      // update user
+      const updateUser = (id) => {
+        const age = document.getElementById("age").value;
+        const user = { id, age };
+        fetch(`/updateUser/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        });
+        console.log("updating");
       };
     </script>
   </body>
