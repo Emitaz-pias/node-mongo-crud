@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const uri =
@@ -25,10 +26,8 @@ client.connect((err) => {
   app.get("/user", (req, res) => {
     collection.find({}).toArray((err, docs) => {
       res.send(docs);
-      console.log("your data is:", docs);
     });
   });
-
   // collection.insertOne(newUser).then((result) => {});
   // post data to database from front end
   app.post("/addUser", (req, res) => {

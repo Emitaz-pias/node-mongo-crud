@@ -14,5 +14,20 @@
       <input type="text" name="age" placeholder="age" />
       <input type="submit" value="submit" />
     </form>
+    <div id="userDiv"></div>
+    <script>
+      // loda data from own api
+
+      fetch("/user")
+        .then((response) => response.json())
+        .then((usr) => {
+          usr.forEach((user) => {
+            const parent = document.getElementById("userDiv");
+            const child = document.createElement("p");
+            child.innerHTML = ` Name: ${user.name} age:${user.age}`;
+            parent.appendChild(child);
+          });
+        });
+    </script>
   </body>
 </html>
