@@ -51,6 +51,13 @@ client.connect((err) => {
       .then((err, result) => console.log(err, result));
     console.log(id);
   });
+  // load signle data from database
+  app.get("/user/:id", (req, res) => {
+    const id = req.params.id;
+    collection.find({ _id: ObjectId(id) }).toArray((err, docs) => {
+      res.send(docs[0]);
+    });
+  });
 });
 
 app.get("/", (req, res) => {

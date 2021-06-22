@@ -15,6 +15,7 @@
       <input type="submit" value="submit" />
     </form>
     <div id="userDiv"></div>
+    <div id="update"></div>
     <script>
       // loda data from own api
 
@@ -24,7 +25,7 @@
           usr.forEach((user) => {
             const parent = document.getElementById("userDiv");
             const child = document.createElement("p");
-            child.innerHTML = ` Name: ${user.name} age:${user.age} <button onclick="deleteUser('${user._id}')">Delete</button>`;
+            child.innerHTML = ` Name: ${user.name} age:${user.age} <button onclick=" loadUser('${user._id}')" >Update</button> <button onclick="deleteUser('${user._id}')">Delete</button>`;
             parent.appendChild(child);
           });
         });
@@ -35,6 +36,20 @@
         })
           .then((res) => res.json())
           .then((data) => console.log(data));
+      };
+      // load a signle product
+
+      const loadUser = (id) => {
+        console.log(id);
+        fetch(`/user/${id}`)
+          .then((res) => res.json())
+          .then((user) => {
+            const parent = document.getElementById("update");
+            parent.innerHTML = `
+                <h3>${user.name}</h3>
+                <input type="text" value="${user.age} "/>
+            `;
+          });
       };
     </script>
   </body>
