@@ -34,7 +34,7 @@ client.connect((err) => {
   app.post("/addUser", (req, res) => {
     const user = req.body;
     collection.insertOne(user).then((result) => {
-      res.send("success");
+      res.redirect("/");
       console.log("data inserted successfully", result.ops);
     });
   });
