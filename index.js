@@ -21,7 +21,16 @@ client.connect((err) => {
     job: " adar bepari",
     txt: "jahajer ki khobor.. ",
   };
+  // get data from database
+  app.get("/user", (req, res) => {
+    collection.find({}).toArray((err, docs) => {
+      res.send(docs);
+      console.log("your data is:", docs);
+    });
+  });
+
   // collection.insertOne(newUser).then((result) => {});
+  // post data to database from front end
   app.post("/addUser", (req, res) => {
     const user = req.body;
     collection.insertOne(user).then((result) => {
@@ -30,7 +39,6 @@ client.connect((err) => {
     });
   });
   // console.log("data insserted successfully", result.ops);
-
   console.log(err);
   console.log("databaseConnected");
 });
