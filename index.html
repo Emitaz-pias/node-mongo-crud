@@ -19,16 +19,21 @@
     <script>
       // loda data from own api
 
-      fetch("/user")
-        .then((response) => response.json())
-        .then((usr) => {
-          usr.forEach((user) => {
-            const parent = document.getElementById("userDiv");
-            const child = document.createElement("p");
-            child.innerHTML = ` Name: ${user.name} age:${user.age} <button onclick="deleteUser(event,'${user._id}')">Delete</button> <button onclick=" loadUser('${user._id}')" >Update</button> `;
-            parent.appendChild(child);
+      const loadAllUser = () => {
+        document.getElementById("userDiv").innerHTML = " ";
+
+        fetch("/user")
+          .then((response) => response.json())
+          .then((usr) => {
+            usr.forEach((user) => {
+              const parent = document.getElementById("userDiv");
+              const child = document.createElement("p");
+              child.innerHTML = ` Name: ${user.name} age:${user.age} <button onclick="deleteUser(event,'${user._id}')">Delete</button> <button onclick=" loadUser('${user._id}')" >Update</button> `;
+              parent.appendChild(child);
+            });
           });
-        });
+      };
+      loadAllUser();
       // delete data from database
       const deleteUser = (event, id) => {
         fetch(`/delete/${id}`, {
@@ -66,8 +71,13 @@
             "Content-Type": "application/json",
           },
           body: JSON.stringify(user),
-        });
-        console.log("updating");
+        })
+          .then((res) => res.json())
+          .then((update) => {
+            if (update) {
+              loadAllUser();
+            }
+          });
       };
     </script>
   </body>

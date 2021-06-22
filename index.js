@@ -72,7 +72,7 @@ client.connect((err) => {
           $set: { age: req.body.age },
         }
       )
-      .then((res) => console.log(res));
+      .then((result) => res.send(result.modifiedCount > 0));
   });
 });
 
