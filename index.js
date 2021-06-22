@@ -27,7 +27,7 @@ client.connect((err) => {
 });
 
 app.get("/", (req, res) => {
-  res.send(" hello MInu");
+  res.sendFile(__dirname + "/index.html");
 });
 
 app.listen(8080, () => console.log("listening to port 8080"));
