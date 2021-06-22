@@ -1,9 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
+const bodyParser = require("body-parser");
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const uri =
   "mongodb+srv://piasemi:iRI9T1yW46gXVmAb@nodemongocrud.jgzj8.mongodb.net/cruddb?retryWrites=true&w=majority";
@@ -19,9 +21,16 @@ client.connect((err) => {
     job: " adar bepari",
     txt: "jahajer ki khobor.. ",
   };
-  collection.insertOne(newUser).then((result) => {
-    console.log("data insserted successfully", result.ops);
+  // collection.insertOne(newUser).then((result) => {});
+  app.post("/addUser", (req, res) => {
+    const user = req.body;
+    collection.insertOne(user).then((result) => {
+      res.send("success");
+      console.log("data inserted successfully", result.ops);
+    });
   });
+  // console.log("data insserted successfully", result.ops);
+
   console.log(err);
   console.log("databaseConnected");
 });
