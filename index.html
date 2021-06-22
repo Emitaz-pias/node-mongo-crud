@@ -24,10 +24,18 @@
           usr.forEach((user) => {
             const parent = document.getElementById("userDiv");
             const child = document.createElement("p");
-            child.innerHTML = ` Name: ${user.name} age:${user.age}`;
+            child.innerHTML = ` Name: ${user.name} age:${user.age} <button onclick="deleteUser('${user._id}')">Delete</button>`;
             parent.appendChild(child);
           });
         });
+      // delete data from database
+      const deleteUser = (id) => {
+        fetch(`/delete/${id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data));
+      };
     </script>
   </body>
 </html>

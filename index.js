@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
 const bodyParser = require("body-parser");
+const ObjectId = require("mongodb").ObjectID;
 
 const app = express();
 app.use(cors());
@@ -40,6 +41,16 @@ client.connect((err) => {
   // console.log("data insserted successfully", result.ops);
   console.log(err);
   console.log("databaseConnected");
+
+  // delte data from database
+  app.delete("/delete/:id", (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    collection
+      .removeOne({ _id: ObjectId(id) })
+      .then((err, result) => console.log(err, result));
+    console.log(id);
+  });
 });
 
 app.get("/", (req, res) => {
